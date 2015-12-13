@@ -47,14 +47,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">-->
       
-    <link rel="stylesheet" type="text/css" href="../../../google-icons/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="google-icons/css/icon.css">
 
     <link rel="stylesheet" type="text/css" href="css/snippet.css">
     <link rel="stylesheet" type="text/css" href="css/activity.css">
     <link rel="stylesheet" href="css/material.teal-red.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <style>
-    #view-source {
+    #floating-btn {
       position: fixed;
       display: block;
       right: 0;
@@ -74,17 +74,18 @@
           <h3>「到谁了」</h3>
         </div>
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">        
-          <h6 class="subtitle">一个轻松的答辩进度控制</h6>
+          <h6 class="subtitle">一个好用的答辩进度控制</h6>
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
           <a href="#overview" class="mdl-layout__tab is-active">进度控制</a>
           <a href="#" class="mdl-layout__tab">通知学生</a>
-          <a href="#" class="mdl-layout__tab">Details</a>
-          <a href="#" class="mdl-layout__tab">Technology</a>
+          <a href="#" class="mdl-layout__tab">修改名单</a>
+
           <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
             <i class="material-icons" role="presentation">add</i>
             <span class="visuallyhidden">Add</span>
           </button>
+
         </div>
       </header>
       <main class="mdl-layout__content">
@@ -93,12 +94,16 @@
           <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
             <div class="mdl-card mdl-cell mdl-cell--12-col">
               <div class="mdl-card__supporting-text">
+
                   <form action="#">
-                    <h4><span class="hide-below-500">「
-                    <span class="mdl-textfield mdl-js-textfield activity-name-span">
-                        <input class="mdl-textfield__input" type="text" id="sample1">
-                        <label class="mdl-textfield__label" for="sample1">机械原理课程</label>
-                    </span>」</span>答辩记录
+                    <h4>
+                        <span class="hide-below-500">「
+                            <span class="mdl-textfield mdl-js-textfield activity-name-span">
+                                <input class="mdl-textfield__input" type="text" id="sample1">
+                                <label class="mdl-textfield__label" for="sample1">机械原理课程</label>
+                            </span>」
+                        </span>
+                        答辩记录
                     </h4>
                   </form>
 
@@ -148,8 +153,10 @@
 
               </div>
               <div class="mdl-card__actions">
-                <a href="#" class="mdl-button">回到顶部</a>
+
+                <a href="#" class="mdl-button">导出进度表</a>
               </div>
+
             </div>
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
               <i class="material-icons">more_vert</i>
@@ -220,7 +227,11 @@
         </footer>
       </main>
     </div>
-    <a href="https://github.com/google/material-design-lite/blob/master/templates/text-only/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
-    <script src="../../material.min.js"></script>
+
+    <a href="#" target="_blank" id="floating-btn"
+       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">
+        进度:</a>
+
+    <script src="js/material.min.js"></script>
   </body>
 </html>
