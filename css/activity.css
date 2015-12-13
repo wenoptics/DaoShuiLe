@@ -27,7 +27,7 @@
 .activity-name-span {
     line-height: 18px !important;;
     width: auto !important;
-    padding: 22px 0 !important;;
+    padding: 22px 0 !important;
 }
 
 @media screen and (max-width: 500px) {
