@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>edit sheet</title>
+
+    <link rel="stylesheet" media="screen" href="css/handsontable.full.css">
+
+</head>
+<body>
+
+    <div id="sheet-container">
+        <div id="edit-sheet"></div>
+    </div>
+
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="js/handsontable.full.js"></script>
+<script>
+
+    // wenop: do_update_rows should be after do_sheet_init, to gain proper height of the container
+    /*window.onload = function() {
+     alert('');
+     do_update_rows();
+     console.log($('#sheet-page').height());
+     };*/
+
+    var hot;
+    do_sheet_init();
+    do_update_rows();
+    set_parent_size();
+
+    function set_parent_size() {
+//        $(window.parent.document).height( $('#sheet-container').height() );
+        var dyn_height = $('#sheet-container').height() + 50;
+        if (parent.set_iframe_height) {
+            parent.set_iframe_height(dyn_height);
+        }
+    }
+
+    function do_update_rows() {
+        /*var sheet_page_height = $('#sheet-page').height();
+
+        var row_count = (sheet_page_height - 260) / 24 - 24;
+        console.log(sheet_page_height);
+        console.log('row' + row_count);
+        if (!row_count || row_count < 5) {
+            row_count = 5;
+        }*/
+
+        // wenop: we just use a fix count here
+        row_count = 120;
+
+        hot.updateSettings({
+            minRows: row_count
+        });
+    }
+
+    function do_sheet_init() {
+        var screen_width = document.documentElement.clientWidth;
+        var sheet_page_width = screen_width; //$('#sheet-page').width();
+        //console.log('sheet_page_width' + sheet_page_width);
+        //console.log('screen_width'+screen_width);
+
+        /// wenop: to decide how many cols should be, by page width
+        var column_count = (sheet_page_width - 60) / 50 - 1;
+        console.log('col' + column_count);
+        if (!column_count || column_count < 1) {
+            column_count = 6;
+        }
+
+        var sheet_container = document.getElementById('edit-sheet');
+        hot = new Handsontable(sheet_container, {
+            data: null,
+            //columns: [{}, {}, {}, {}, {}, {}, {}],
+            allowInsertColumn: true,
+            autoColumnSize: {syncLimit: 50},
+            minSpareRows: 1,
+            rowHeaders: true,
+            colHeaders: true,
+            //contextMenu: true,
+            manualColumnResize: true,
+            minCols: column_count
+        });
+
+        // wenop: just to translate the context menu
+        hot.updateSettings({
+            contextMenu: {
+                callback: function (key, options) {
+                    if (key === 'about') {
+                        setTimeout(function () {
+                            // timeout is used to make sure the menu collapsed before alert is shown
+
+                            // do something here
+
+                        }, 100);
+                    }
+                },
+                items: {
+                    'row_above' 	:{name: "在上面插入一行"},
+                    'row_below' 	:{name: "在下面插入一行"},
+                    "hsep0": "---------",
+                    'col_left' 	    :{name: "在左边插入一列"},
+                    'col_right' 	:{name: "在右边插入一列"},
+                    "hsep1": "---------",
+                    'clear_column' 	:{name: "清空此列"},
+                    'remove_row' 	:{name: "移除此行"},
+                    'remove_col' 	:{name: "移除此列"},
+                    "hsep3": "---------",
+                    'undo' 	        :{name: "撤销"},
+                    'redo' 	        :{name: "重做"}
+                }
+            }
+        });
+
+    }
+
+
+</script>
+</body>
+</html>
