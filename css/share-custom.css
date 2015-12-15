@@ -1,0 +1,92 @@
+
+/* bootstrap override */
+
+h1, h2, h3, h4, h5, h6
+{
+    color: #585f69;
+}
+
+
+/* cumtom style */
+
+.appbox h2 {margin-top:0}
+
+.icon-btn:hover {
+    background-color: #FFF;
+}
+
+/** fineuploader overwide **/
+
+/** theme **/
+
+.navbar-default-admin a {
+    color: #FFF;
+}
+
+.top-alert .close {
+    right: 0;
+    top: 0;
+    line-height: 60px;
+}
+
+/** è¦†ç›–bootstrap tooltipèƒŒæ™¯è‰² **/
+.tooltip-inner {
+    background-color:#428bca;
+	line-height:20px;
+	padding:5px;
+}
+.tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color:transparent;
+    border-style: solid;
+}
+.tooltip.top .tooltip-arrow{bottom:0;left:50%;margin-left:-5px;border-width:5px 5px 0;border-top-color:#428bca}.tooltip.top-left .tooltip-arrow{right:5px;bottom:0;margin-bottom:-5px;border-width:5px 5px 0;border-top-color:#428bca}.tooltip.top-right .tooltip-arrow{bottom:0;left:5px;margin-bottom:-5px;border-width:5px 5px 0;border-top-color:#428bca}.tooltip.right .tooltip-arrow{top:50%;left:0;margin-top:-5px;border-width:5px 5px 5px 0;border-right-color:#000}.tooltip.left .tooltip-arrow{top:50%;right:0;margin-top:-5px;border-width:5px 0 5px 5px;border-left-color:#428bca}.tooltip.bottom .tooltip-arrow{top:0;left:50%;margin-left:-5px;border-width:0 5px 5px;border-bottom-color:#428bca}.tooltip.bottom-left .tooltip-arrow{top:0;right:5px;margin-top:-5px;border-width:0 5px 5px;border-bottom-color:#428bca}.tooltip.bottom-right .tooltip-arrow{top:0;left:5px;margin-top:-5px;border-width:0 5px 5px;border-bottom-color:#428bca}
+.tooltip.in{filter:alpha(opacity=100);opacity:1}
+/* bootstrap override */
+
+h1, h2, h3, h4, h5, h6
+{
+    color: #585f69;
+}
+/* cumtom style */
+
+.appbox h2 {margin-top:0}
+
+.icon-btn:hover {
+    background-color: #FFF;
+}
+
+/** fineuploader overwide **/
+
+.top-alert .close {
+    right: 0;
+    top: 0;
+    line-height: 60px;
+}
+
+header .navbar-default ul.navbar-nav .dropdown-menu li a {
+    color:#666;
+    line-height:30px;
+    line-height: 30px;
+}
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover{
+    background: none;
+}
+header .navbar-default ul.navbar-nav .dropdown-menu li a:hover{
+    background-color:#eee;
+}
+.dropdown-menu{
+    min-width:120px;
+}
+.navbar-default .navbar-nav>.open>a:focus{
+    background: none;
+    color:#fff;
+}
+header .navbar-default ul.navbar-nav li a:after{
+    content: '';
+    width: 0;
+    background: 0 0;
+    position: absolute;
+}

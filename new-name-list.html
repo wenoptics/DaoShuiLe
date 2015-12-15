@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>导入列表 - 新建答辩</title>
+    <title>导入列表 - 新建答辩 - 「到谁了」</title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -70,7 +70,8 @@
     <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
       <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--teal mdl-color-text--white">
         <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title">创建新答辩</span>
+          <span class="mdl-layout-title">「到谁了」</span>
+          <span class="mdl-layout-title mdl-color-text--grey-200">  &nbsp;  一个好用的答辩进度控制</span>
           <div class="mdl-layout-spacer"></div>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -92,9 +93,13 @@
             <div class="demo-crumbs mdl-color-text--grey-500">
               要创建一个新的答辩，请先创建此答辩的名单表
             </div>
-            <h3>答辩名单表</h3>
+            <h3>答辩名单表
+              <span class="mdl-card__subtitle-text">(编辑模式)</span>
+            </h3>
+
             <!--wenop: use an iframe to eliminate the disorder-->
             <iframe id="edit-sheet-iframe" scrolling="no" src="iframed-edit-sheet.html" frameborder="0"></iframe>
+
           </div>
         </div>
         <footer class="demo-footer mdl-mini-footer">
@@ -109,7 +114,9 @@
       </main>
     </div>
 
-    <a href="https://github.com/google/material-design-lite/blob/master/templates/article/" target="_blank" id="floating-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
+    <a href="activity-main.html" target="_self" id="floating-btn"
+       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">
+      确认名单</a>
 
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="js/material.min.js"></script>

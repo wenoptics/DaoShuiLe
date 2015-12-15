@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>「到谁了」</title>
+    <title>答辩进度 - 「到谁了」</title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -52,7 +52,8 @@
     <link rel="stylesheet" type="text/css" href="css/snippet.css">
     <link rel="stylesheet" type="text/css" href="css/activity.css">
     <link rel="stylesheet" href="css/material.teal-red.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/activity-main-styles.css">
+    <link rel="stylesheet" href="css/simplemodal.css">
     <style>
     #floating-btn {
       position: fixed;
@@ -78,7 +79,7 @@
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
           <a href="#overview" class="mdl-layout__tab is-active">进度控制</a>
-          <a href="#" class="mdl-layout__tab">通知学生</a>
+          <a href="#" onclick="open_overlay('share');" class="mdl-layout__tab">通知学生</a>
           <a href="#" class="mdl-layout__tab">修改名单</a>
 
           <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
@@ -88,6 +89,46 @@
 
         </div>
       </header>
+      <div class="content-hide" style="display: none">
+          <form id="activity-setting">
+              <h1>答辩信息</h1>
+              <div class="setting-overlay-content">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input class="mdl-textfield__input" type="text" id="input-setting-overlay-activity-name">
+                      <label class="mdl-textfield__label" for="input-setting-overlay-activity-name">
+                          答辩科目</label>
+                  </div>
+
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input class="mdl-textfield__input" type="text" id="input-setting-overlay-activity-host">
+                      <label class="mdl-textfield__label" for="input-setting-overlay-activity-host">
+                          主持老师</label>
+                  </div>
+
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input class="mdl-textfield__input" type="text" id="input-setting-overlay-activity-datetime-start">
+                      <label class="mdl-textfield__label" for="input-setting-overlay-activity-datetime-start">
+                          开始时间</label>
+                  </div>
+
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input class="mdl-textfield__input" type="text" id="input-setting-overlay-activity-where">
+                      <label class="mdl-textfield__label" for="input-setting-overlay-activity-where">
+                          地点</label>
+                  </div>
+
+                  <div class="spacer-vertical"></div>
+
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent full-width">
+                      分享答辩通知
+                      <i class="material-icons">&#xE163;</i>
+                  </button>
+
+              </div>
+
+          </form>
+      </div>
+
       <main class="mdl-layout__content">
         <div class="mdl-layout__tab-panel is-active" id="overview">
 
@@ -229,10 +270,42 @@
       </main>
     </div>
 
-    <a href="#" target="_blank" id="floating-btn"
+    <a href="#" target="_self" id="floating-btn"
        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">
         进度: 0%</a>
 
-    <script src="js/material.min.js"></script>
+    <script src="js/material.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="js/jquery.simplemodal.js"></script>
+    <script>
+        var overlay_activity_setting = $('#activity-setting');
+
+        function open_overlay(what) {
+            switch (what) {
+                case 'share' :
+                    $.modal(overlay_activity_setting, {
+                        overlayClose: true,
+                        onOpen: function (dialog) {
+                            dialog.overlay.fadeIn(30, function () {
+                            });
+                            dialog.container.fadeIn('fast', function () {
+                                dialog.data.fadeIn('fast');
+                            });
+                        },
+                        onShow: function (dialog) {
+                            // Access elements inside the dialog
+                            // Useful for binding events, initializing other plugins, etc.
+
+                            // wenop: focus on the first textbox
+                            setTimeout(function() {
+                                $("#input-setting-overlay-activity-name", dialog.data).focus();
+                            }, 1000);
+                        }
+                    });
+                    break;
+            }
+        }
+    </script>
+
   </body>
 </html>

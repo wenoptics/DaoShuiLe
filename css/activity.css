@@ -35,3 +35,38 @@
         display: none;
     }
 }
+
+/*叠层对话框 - begin*/
+.spacer-vertical {
+    margin-top: 36px;
+}
+.setting-overlay-content {
+    padding-left: 36px;
+    padding-right: 36px;
+}
+form#activity-setting {
+    box-sizing: border-box;
+    width: 360px;
+    margin: 100px auto 0;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+    padding-bottom: 40px;
+    border-radius: 3px;
+    background: white;
+}
+form#activity-setting h1 {
+    height: 100px;
+    width: 100%;
+    font-size: 18px;
+    background: #18aa8d;
+    color: white;
+    line-height: 150%;
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    padding: 20px;
+}
+/*叠层对话框 - end*/
+
+.full-width {
+    width: 100% !important;
+}

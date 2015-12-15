@@ -10,7 +10,9 @@
 <body>
 
     <div id="sheet-container">
-        <div id="edit-sheet"></div>
+        <div id="edit-sheet">
+
+        </div>
     </div>
 
 <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -26,7 +28,6 @@
 
     var hot;
     do_sheet_init();
-    do_update_rows();
     set_parent_size();
 
     function set_parent_size() {
@@ -35,24 +36,6 @@
         if (parent.set_iframe_height) {
             parent.set_iframe_height(dyn_height);
         }
-    }
-
-    function do_update_rows() {
-        /*var sheet_page_height = $('#sheet-page').height();
-
-        var row_count = (sheet_page_height - 260) / 24 - 24;
-        console.log(sheet_page_height);
-        console.log('row' + row_count);
-        if (!row_count || row_count < 5) {
-            row_count = 5;
-        }*/
-
-        // wenop: we just use a fix count here
-        row_count = 120;
-
-        hot.updateSettings({
-            minRows: row_count
-        });
     }
 
     function do_sheet_init() {
@@ -68,10 +51,12 @@
             column_count = 6;
         }
 
+        // wenop: we just use a fix count here
+        row_count = 120;
+
         var sheet_container = document.getElementById('edit-sheet');
         hot = new Handsontable(sheet_container, {
             data: null,
-            //columns: [{}, {}, {}, {}, {}, {}, {}],
             allowInsertColumn: true,
             autoColumnSize: {syncLimit: 50},
             minSpareRows: 1,
@@ -79,7 +64,8 @@
             colHeaders: true,
             //contextMenu: true,
             manualColumnResize: true,
-            minCols: column_count
+            minCols: column_count,
+            minRows: row_count
         });
 
         // wenop: just to translate the context menu
