@@ -7,7 +7,7 @@
     <link rel="stylesheet" media="screen" href="css/handsontable.full.css">
 
 </head>
-<body>
+<body style="margin: 0">
 
     <div id="sheet-container">
         <div id="edit-sheet">
@@ -97,6 +97,30 @@
                 }
             }
         });
+
+        var my_undo_btn = window.parent.$('#sheet-ctl-btn-undo');
+        var my_redo_btn = window.parent.$('#sheet-ctl-btn-redo');
+
+        // wenop: since I've added a pair of Undo/Redo btn
+        //   I have to manually manage the state of Undo/Redo
+        hot.addHook('afterChange', function() {
+            console.log("undo:"+hot.isUndoAvailable());
+            if (hot.isUndoAvailable())
+                my_undo_btn.removeAttr('disabled');
+            else
+                my_undo_btn.attr('disabled', true);
+            /*
+            if (hot.isRedoAvailable())
+                my_redo_btn.removeAttr('disabled');
+            else
+                my_redo_btn.attr('disabled', true);
+            console.log("redo:"+hot.isRedoAvailable());*/
+        });
+
+        // wenop: show the toolbox after one single change
+        hot.addHookOnce('afterChange', function() {
+            window.parent.$('#sheet-control-btn-group').fadeIn();
+        })
 
     }
 

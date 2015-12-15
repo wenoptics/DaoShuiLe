@@ -18,6 +18,7 @@
 -->
 <html lang="en">
   <head>
+    <link rel="stylesheet" type="text/css" href="css/activity.css"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
@@ -97,6 +98,29 @@
               <span class="mdl-card__subtitle-text">(编辑模式)</span>
             </h3>
 
+            <!--wenop - hide on start up-->
+            <div id="sheet-control-btn-group" style="display: none" >
+              <button disabled id="sheet-ctl-btn-undo"
+                      class="mdl-button mdl-js-button mdl-button--raised sheet-control-btn">
+                <i class="material-icons">&#xE166;</i>
+                撤销
+              </button>
+              <button disabled id="sheet-ctl-btn-redo"
+                      class="mdl-button mdl-js-button mdl-button--raised sheet-control-btn">
+                <i class="material-icons">&#xE15A;</i>
+                重做
+              </button>
+              <button id="sheet-ctl-btn-clear"
+                      class="mdl-button mdl-js-button mdl-button--raised sheet-control-btn">
+                <i class="material-icons">&#xE14C;</i>
+                清空
+              </button>
+              <button id="sheet-ctl-btn-shuffle"
+                      class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored sheet-control-btn">
+                <i class="material-icons">&#xE043;</i>
+                随机排序
+              </button>
+            </div>
             <!--wenop: use an iframe to eliminate the disorder-->
             <iframe id="edit-sheet-iframe" scrolling="no" src="iframed-edit-sheet.html" frameborder="0"></iframe>
 
