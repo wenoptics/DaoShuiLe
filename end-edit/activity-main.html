@@ -89,7 +89,7 @@
 
         </div>
       </header>
-      <div class="content-hide" style="display: none">
+      <div class="content-hide" style="display: none;">
           <form id="activity-setting">
               <h1>答辩信息</h1>
               <div class="setting-overlay-content">
@@ -277,6 +277,7 @@
     <script src="js/material.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="js/jquery.simplemodal.js"></script>
+    <script src="js/wenop-util.js"></script>
     <script>
         var overlay_activity_setting = $('#activity-setting');
 
@@ -295,6 +296,12 @@
                         onShow: function (dialog) {
                             // Access elements inside the dialog
                             // Useful for binding events, initializing other plugins, etc.
+
+                            // wenop: override overflow (for ie9)
+                            if(isIE()){
+                                //alert("ie");
+                                $('.simplemodal-container .simplemodal-wrap').css('overflow', 'hidden');
+                            }
 
                             // wenop: focus on the first textbox
                             setTimeout(function() {
