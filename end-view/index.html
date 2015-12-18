@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="bower_components/Swiper/dist/css/swiper.css">
+
+
+    <!-- Demo styles -->
+    <style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+        body {
+            background: #ffffff;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color:#000;
+            margin: 0;
+            padding: 0;
+        }
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            /*text-align: center;
+            font-size: 18px;*/
+
+            /*fixme background for debug*/
+            background: #e6ee9c;
+
+            /* Center slide text vertically */
+            /*display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;*/
+        }
+
+        #top-canvas {
+            height: 500px;
+            width: 100%;
+            /*#figure-container aligned to the bottom of #top-canvas */
+            position: relative;
+            background: #eee;
+        }
+
+        #figure-container {
+            height: 200px;
+            width: 100%;
+            /*#figure-container aligned to the bottom of #top-canvas */
+            position: absolute;
+            bottom: 0;
+        }
+
+        .avatar-show {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="top-canvas">
+        <div id="parallax-bg">
+
+        </div>
+
+        <div id="figure-container">
+            <!-- Swiper -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img class="avatar-show" src="asset/q-avatar/sliced_43.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img class="avatar-show" src="asset/q-avatar/sliced_52.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img class="avatar-show" src="asset/q-avatar/sliced_47.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img class="avatar-show" src="asset/q-avatar/sliced_50.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img class="avatar-show" src="asset/q-avatar/sliced_52.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img class="avatar-show" src="asset/q-avatar/sliced_43.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img class="avatar-show" src="asset/q-avatar/sliced_47.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img class="avatar-show" src="asset/q-avatar/sliced_50.png">
+                    </div>
+                    <div class="swiper-slide">Slide 10</div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Swiper JS -->
+    <script src="bower_components/Swiper/dist/js/swiper.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/Swiper/dist/js/swiper.jquery.js"></script>
+    <script src="bower_components/tether/dist/js/tether.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+
+        /*$('.swiper-wrapper').each(function(index) {
+            new Tether({
+                element: $(this, '.avatar-show'),
+                target: this,
+                attachment: 'bottom middle',
+                targetAttachment: 'bottom middle'
+            });
+        });*/
+
+
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 5,
+            paginationClickable: true,
+            spaceBetween: 10
+        });
+    </script>
+</body>
+</html>
