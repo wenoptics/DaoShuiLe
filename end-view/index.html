@@ -158,14 +158,14 @@
 
         var hasInit=false;
 
-        var staticInterpFigureScaleHalf = 1;
+        var staticFigureHalfProgressWidth = 1;
 
         var swiper = new Swiper('.swiper-container', {
             pagination: '.swiper-pagination',
             slidesPerView: 7,
             paginationClickable: true,
             spaceBetween: -10,
-//            set the active slide the centre one
+            /*set the active slide the centre one*/
             centeredSlides: true,
 
             breakpoints: {
@@ -181,7 +181,7 @@
 
             onInit: function(swiper){
                 refreshSizeOfInnerImg();
-                getInterpFigureScaleHalf(swiper);
+                refreshFigureHalfProgressWidth(swiper);
                 hasInit = true;
             },
 
@@ -204,28 +204,72 @@
             },
             onProgress: function(swiper, progress){
                 if (hasInit) {
-                    for(var slideN=0; slideN<swiper.slides.length; slideN++) {
+                    /*get centre slide index*/
+                    var currentCentredIndex = Math.floor((progress+staticFigureHalfProgressWidth) / staticFigureHalfProgressWidth / 2);
+//                    console.log(currentCentredIndex);
+                    var slideN;
+
+                    var offset_amount = interp_figure_offset(currentCentredIndex, progress);
+                    var scale;
+//                    fixme the const 4
+                    for(slideN=currentCentredIndex-4; slideN<currentCentredIndex; slideN++) {
+                        // offset left
+                        if(swiper.slides[slideN]) {
+                            scale = interp_figure_scale(slideN, progress);
+                            $(swiper.slides[slideN]).css('transform',
+                                    'scale('+scale+','+scale+')'
+                                    + 'translateX(-'+offset_amount+'px)');
+                        }
+                    }
+
+                    for(slideN=currentCentredIndex+4; slideN>currentCentredIndex; slideN--) {
+                        // offset right
+                        if(swiper.slides[slideN]) {
+                            scale = interp_figure_scale(slideN, progress);
+                            $(swiper.slides[slideN]).css('transform',
+                                    'scale('+scale+','+scale+')'
+                                    + ' translateX('+offset_amount+'px)');
+                        }
+                    }
+
+                    scale = interp_figure_scale(currentCentredIndex, progress);
+                    // scale for the centred one
+                    $(swiper.slides[currentCentredIndex]).css('transform',
+                            'scale('+scale+','+scale+')'
+                           );
+
+                    /*for(slideN=0; slideN<swiper.slides.length; slideN++) {
                         var s = interp_figure_scale(slideN, progress);
                         //console.log('onProgress,p='+ progress + ' ,s='+ s + ',activeI='+ swiper.activeIndex+', translate='+swiper.translate);
 
-                        // wenop: scale the centred figure
+                        /!*wenop: scale the centred figure*!/
                         $(swiper.slides[slideN]).css('transform', 'scale('+s+','+s+')');
-                    }
+                    }*/
                 }
             }
         });
 
-        function getInterpFigureScaleHalf(swiper) {
+
+        function refreshFigureHalfProgressWidth(swiper) {
             if (swiper.slides.length>1) {
-                staticInterpFigureScaleHalf = (1.0 / (swiper.slides.length - 1)) / 2;
+                staticFigureHalfProgressWidth = (1.0 / (swiper.slides.length - 1)) / 2;
             } else {
-                staticInterpFigureScaleHalf = 1;
+                staticFigureHalfProgressWidth = 1;
             }
         }
-        /* wenop: 对于第slideN个slide, 给定一个progress值，返回scale级数*/
+
+        /* wenop: 对于第slideN个slide, 给定一个progress值，返回scale级数, range[1, 2] */
         function interp_figure_scale(slideN, progress) {
-//            todo wenop: Optimize the calc here
-            return wInterp((progress - (slideN * 2 * staticInterpFigureScaleHalf)) / staticInterpFigureScaleHalf)
+//            fixme: Optimize the calc here
+            return wInterp((progress - (slideN * 2 * staticFigureHalfProgressWidth)) / staticFigureHalfProgressWidth)
+        }
+
+        /* wenop: 对于第slideN个slide, 给定一个progress值，返回左右应该额外空开的距离, range[0, sizeOfInnerImg/2] */
+        function interp_figure_offset(slideN, progress) {
+//            fixme: Optimize the calc here
+            return (wInterp(
+                    (progress - (slideN * 2 * staticFigureHalfProgressWidth)) / staticFigureHalfProgressWidth
+                    ) - 1 ) * (sizeOfInnerImg/2)
         }
 
         function wInterp(i) {
