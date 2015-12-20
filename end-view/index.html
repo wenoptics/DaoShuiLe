@@ -59,7 +59,7 @@
         }
 
         #top-canvas {
-            height: 500px;
+            height: 60%;
             width: 100%;
             /*#figure-container aligned to the bottom of #top-canvas */
             position: relative;
@@ -127,10 +127,10 @@
 
 
     <!-- Swiper JS -->
-    <script src="js/swiper-custom.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/jquery.transform.js/jquery.transform2d.js"></script>
-    <script src="bower_components/Swiper/dist/js/swiper.jquery.js"></script>
+    <script src="js/swiper-custom.js"></script>
+    <script src="js/swiper.jquery-custom.js"></script>
     <script src="bower_components/tether/dist/js/tether.js"></script>
     <script src="bower_components/velocity/velocity.js"></script>
     <script src="js/bezier-easing.bundle.js"></script>
@@ -163,28 +163,38 @@
         });
 
         refreshSizeOfInnerImg();
-        var wEasing = BezierEasing(0, 0, 1, 0.5);
+        var wEasing = BezierEasing(1,.03,.66,.99);
 
         var hasInit=false;
 
         var staticFigureHalfProgressWidth = 1;
 
         var swiper = new Swiper('.swiper-container', {
-            pagination: '.swiper-pagination',
+            pagination: undefined, //'.swiper-pagination',
             slidesPerView: 7,
             paginationClickable: true,
-            spaceBetween: -10,
+            spaceBetween: 0,//-10,
             /*set the active slide the centre one*/
             centeredSlides: true,
+//            mousewheelControl: true,
+            slideToClickedSlide: true,
+
+            speed: 700,
+            touchRatio: 0.35,
+
+//            freeMode: true,
+//            freeModeSticky: true,
+//            /*设置的值越大，当释放slide时的滑动距离越大。*/
+//            freeModeMomentumRatio: 1,
 
             breakpoints: {
                 640: {
                     slidesPerView: 7,
-                    spaceBetween: -30
+                    spaceBetween: 0//-30
                 },
                 320: {
                     slidesPerView: 5,
-                    spaceBetween: -20
+                    spaceBetween: 0//-20
                 }
             },
 
@@ -197,26 +207,75 @@
             onTransitionStart: function(swiper){
                 console.log('onTransitionStart, NowActiveI='+ swiper.activeIndex);
                 if (hasInit) {
+                    $.Velocity(
+                            {tween:[0, 50]},
+                            {
+                                duration:300,
+                                progress: function(elements, c, r, s, t) {
+                                    console.log("The current tween value is " + t)
+                                }
+                            }
+                    );
 
+                    /*var centredSlide = getCentredSlideN(swiper.progress);
+                    var visibleSlideStart = centredSlide - 5;
+                    var visibleSlideEnd = centredSlide + 5;
+                    for(var n=visibleSlideStart; n<=visibleSlideEnd; n++){
+                        if (n==swiper.activeIndex) continue;
+                        var curSld = swiper.slides[n];
+                        if(curSld) {
+                            if ($(curSld).data('scaled')) {
+                                $(curSld).velocity(
+                                    {
+                                        scaleX: 1,
+                                        scaleY: 1
+                                    }, swiper.speed
+                                );
+                            }
+                        }
+                    }*/
                 }
             },
             onTransitionEnd: function(swiper){
                 console.log('onTransitionEnd, NowActiveI='+ swiper.activeIndex);
                 // wenop: on transition end, detail animation
-                if (hasInit) {
-                    /*$('.swiper-slide-active').velocity({
-                        scale:2
-                    },{
-                        duration: 3000
-                    });*/
-                }
+                if (hasInit) {                }
+            },
+            onSliderMove: function(swiper, event){
+                console.log('onSliderMove fired:'+ event);
             },
             onProgress: function(swiper, progress){
+                if (hasInit) {
+                    for (var n=0;n<swiper.slides.length;n++) {
+                        var scale = interp_figure_scale(n, progress);
+                        var offset_amount = 0;
+                        var curSld = swiper.slides[n];
+                        if(curSld) {
+                            if (scale == 1) {
+                                /*because this is the most time*/
+                                $(curSld).css('transform',
+                                        'translateX(-'+offset_amount+'px)');
+                                $(curSld).data('scaled',false);
+                            } else {
+                                $(curSld).css('transform',
+                                        'scale('+scale+','+scale+')'
+                                        + 'translateX(-'+offset_amount+'px)');
+                                $(curSld).data('scaled',true);
+                            }
+                        }
+                    }
+                }
+            },
+            _onProgress: function(swiper, progress){
+                console.log('onProgress fired:'+ progress);
                 if (hasInit) {
                     /*get centre slide index*/
                     var currentCentredIndex = Math.floor((progress+staticFigureHalfProgressWidth) / staticFigureHalfProgressWidth / 2);
 //                    console.log(currentCentredIndex);
 
+                    /*todo
+                    *   swiper有个watchSlidesProgress，看看能不能帮助优化代码
+                    * */
 
                     var offset_amount = interp_figure_offset(currentCentredIndex, progress);
                     var scale;
@@ -263,6 +322,10 @@
                 }
             }
         });
+
+        function getCentredSlideN(progress) {
+            return Math.floor((progress+staticFigureHalfProgressWidth) / staticFigureHalfProgressWidth / 2);
+        }
 
         function setScale(dom, x,y){
             $(dom).css('transform',         'scale('+x+','+y+')');
@@ -315,16 +378,15 @@
         /* wenop: 对于第slideN个slide, 给定一个progress值，返回scale级数, range[1, 2] */
         function interp_figure_scale(slideN, progress) {
 //            fixme: Optimize the calc here
-            return wInterp((progress - (slideN * 2 * staticFigureHalfProgressWidth)) / staticFigureHalfProgressWidth)
+            return wInterp((progress - (slideN * 2 * staticFigureHalfProgressWidth)) / staticFigureHalfProgressWidth / 5)
         }
 
         /* wenop: 对于第slideN个slide, 给定一个progress值，返回左右应该额外空开的距离, range[0, sizeOfInnerImg/2] */
         function interp_figure_offset(slideN, progress) {
 //            fixme: Optimize the calc here
-            return (wInterp(
-                    (progress - (slideN * 2 * staticFigureHalfProgressWidth)) / staticFigureHalfProgressWidth
-                    ) - 1 ) * (sizeOfInnerImg/2)
+            return (interp_figure_scale(slideN, progress) - 1 ) * (sizeOfInnerImg/2)
         }
+
 
         function wInterp(i) {
             var ret;
