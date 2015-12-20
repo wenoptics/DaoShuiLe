@@ -204,11 +204,13 @@
             },
             onProgress: function(swiper, progress){
                 if (hasInit) {
-                    var s = interp_figure_scale(progress);
-                    console.log('onProgress,p='+ progress + ' ,s='+ s + ',activeI='+ swiper.activeIndex+', translate='+swiper.translate);
+                    for(var slideN=0; slideN<swiper.slides.length; slideN++) {
+                        var s = interp_figure_scale(slideN, progress);
+                        //console.log('onProgress,p='+ progress + ' ,s='+ s + ',activeI='+ swiper.activeIndex+', translate='+swiper.translate);
 
-                    // wenop: scale the centred figure
-                    $(swiper.slides[0]).css('transform', 'scale('+s+','+s+')');
+                        // wenop: scale the centred figure
+                        $(swiper.slides[slideN]).css('transform', 'scale('+s+','+s+')');
+                    }
                 }
             }
         });
@@ -220,8 +222,10 @@
                 staticInterpFigureScaleHalf = 1;
             }
         }
-        function interp_figure_scale(i) {
-            return wInterp((i + 0.0) / staticInterpFigureScaleHalf)
+        /* wenop: 对于第slideN个slide, 给定一个progress值，返回scale级数*/
+        function interp_figure_scale(slideN, progress) {
+//            todo wenop: Optimize the calc here
+            return wInterp((progress - (slideN * 2 * staticInterpFigureScaleHalf)) / staticInterpFigureScaleHalf)
         }
 
         function wInterp(i) {
