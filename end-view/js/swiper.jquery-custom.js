@@ -1625,16 +1625,16 @@
         
                     if (s.params.freeModeMomentumBounce && doBounce) {
                         s.updateProgress(afterBouncePosition);
-                        s.setWrapperTransition(momentumDuration);
                         s.setWrapperTranslate(newPosition);
+                        s.setWrapperTransition(momentumDuration);
                         s.onTransitionStart();
                         s.animating = true;
                         s.wrapper.transitionEnd(function () {
                             if (!s || !allowMomentumBounce) return;
                             s.emit('onMomentumBounce', s);
         
-                            s.setWrapperTransition(s.params.speed);
                             s.setWrapperTranslate(afterBouncePosition);
+                            s.setWrapperTransition(s.params.speed);
                             s.wrapper.transitionEnd(function () {
                                 if (!s) return;
                                 s.onTransitionEnd();
@@ -1642,8 +1642,8 @@
                         });
                     } else if (s.velocity) {
                         s.updateProgress(newPosition);
-                        s.setWrapperTransition(momentumDuration);
                         s.setWrapperTranslate(newPosition);
+                        s.setWrapperTransition(momentumDuration);
                         s.onTransitionStart();
                         if (!s.animating) {
                             s.animating = true;
@@ -1880,7 +1880,18 @@
         s.setWrapperTransition = function (duration, byController) {
 
             /*wenop: This is where the transition starts*/
-            s.wrapper.transition(duration);
+            /*/!*wenop-mod, replace with velocity.js *!/
+            s.wrapper.transition(duration);*/
+            $(s.wrapper).velocity(s.wrapper.data('veTranslate'),
+                {
+                    duration: duration,
+                    complete: function(ele) {
+                        /*manually fire the event*/
+                        $(s.wrapper).trigger('transitionend') ;
+                    }
+                }
+            );
+
 
             if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
                 s.effects[s.params.effect].setTransition(duration);
@@ -1896,6 +1907,7 @@
             }
             s.emit('onSetTransition', s, duration);
         };
+        /*wenop-mod: make it store a Velocity.js form animation desc in wrapper.data*/
         s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
 
             var x = 0, y = 0, z = 0;
@@ -1915,6 +1927,9 @@
                 if (s.support.transforms3d) s.wrapper.transform('translate3d(' + x + 'px, ' + y + 'px, ' + z + 'px)');
                 else s.wrapper.transform('translate(' + x + 'px, ' + y + 'px)');
             }
+
+            /*wenop-add*/
+            s.wrapper.data('veTranslate', {translateX: x, translateY: y});
         
             s.translate = isH() ? x : y;
         
@@ -1945,6 +1960,7 @@
                 s.controller.setTranslate(s.translate, byController);
             }
             s.emit('onSetTranslate', s, s.translate);
+
         };
         
         s.getTranslate = function (el, axis) {
@@ -3005,8 +3021,8 @@
                 if (position >= s.minTranslate()) position = s.minTranslate();
                 if (position <= s.maxTranslate()) position = s.maxTranslate();
         
-                s.setWrapperTransition(0);
                 s.setWrapperTranslate(position);
+                s.setWrapperTransition(0);
                 s.updateProgress();
                 s.updateActiveIndex();
         

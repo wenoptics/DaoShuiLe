@@ -206,35 +206,7 @@
 
             onTransitionStart: function(swiper){
                 console.log('onTransitionStart, NowActiveI='+ swiper.activeIndex);
-                if (hasInit) {
-                    $.Velocity(
-                            {tween:[0, 50]},
-                            {
-                                duration:300,
-                                progress: function(elements, c, r, s, t) {
-                                    console.log("The current tween value is " + t)
-                                }
-                            }
-                    );
-
-                    /*var centredSlide = getCentredSlideN(swiper.progress);
-                    var visibleSlideStart = centredSlide - 5;
-                    var visibleSlideEnd = centredSlide + 5;
-                    for(var n=visibleSlideStart; n<=visibleSlideEnd; n++){
-                        if (n==swiper.activeIndex) continue;
-                        var curSld = swiper.slides[n];
-                        if(curSld) {
-                            if ($(curSld).data('scaled')) {
-                                $(curSld).velocity(
-                                    {
-                                        scaleX: 1,
-                                        scaleY: 1
-                                    }, swiper.speed
-                                );
-                            }
-                        }
-                    }*/
-                }
+                if (hasInit) {                }
             },
             onTransitionEnd: function(swiper){
                 console.log('onTransitionEnd, NowActiveI='+ swiper.activeIndex);
