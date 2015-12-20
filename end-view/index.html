@@ -29,6 +29,14 @@
 
             transform-origin: bottom center;
 
+            -ms-transform-origin:bottom center; 		/* IE 9 */
+
+            -webkit-transform-origin: bottom center;	/* Safari 和 Chrome */
+
+            -moz-transform-origin: bottom center;	/* Firefox */
+
+            -o-transform-origin: bottom center;
+
             /*text-align: center;
             font-size: 18px;*/
 
@@ -121,6 +129,7 @@
     <!-- Swiper JS -->
     <script src="js/swiper-custom.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery.transform.js/jquery.transform2d.js"></script>
     <script src="bower_components/Swiper/dist/js/swiper.jquery.js"></script>
     <script src="bower_components/tether/dist/js/tether.js"></script>
     <script src="bower_components/velocity/velocity.js"></script>
@@ -207,48 +216,93 @@
                     /*get centre slide index*/
                     var currentCentredIndex = Math.floor((progress+staticFigureHalfProgressWidth) / staticFigureHalfProgressWidth / 2);
 //                    console.log(currentCentredIndex);
-                    var slideN;
+
 
                     var offset_amount = interp_figure_offset(currentCentredIndex, progress);
                     var scale;
-//                    fixme the const 4
-                    for(slideN=currentCentredIndex-4; slideN<currentCentredIndex; slideN++) {
+//                    fixme the const 5
+                    for(var n=1; n<5; n++) {
                         // offset left
-                        if(swiper.slides[slideN]) {
-                            scale = interp_figure_scale(slideN, progress);
-                            $(swiper.slides[slideN]).css('transform',
-                                    'scale('+scale+','+scale+')'
-                                    + 'translateX(-'+offset_amount+'px)');
+                        var slideNLeft = currentCentredIndex - n;
+                        var slideNRight = currentCentredIndex + n;
+                        /*interp_figure_scale是左右对称的*/
+                        scale = interp_figure_scale(slideNLeft, progress);
+                        /*左边的slide*/
+                        if(swiper.slides[slideNLeft]) {
+                            if (scale == 1) {
+                                /*because this is the most time*/
+                                $(swiper.slides[slideNLeft]).css('transform',
+                                        'translateX(-'+offset_amount+'px)');
+                            } else {
+                                $(swiper.slides[slideNLeft]).css('transform',
+                                        'scale('+scale+','+scale+')'
+                                        + 'translateX(-'+offset_amount+'px)');
+                            }
+                        }
+                        /*右边的slide*/
+                        if(swiper.slides[slideNRight]) {
+                            if (scale == 1) {
+                                /*because this is the most time*/
+                                $(swiper.slides[slideNRight]).css('transform',
+                                        'translateX('+offset_amount+'px)');
+                            } else {
+                                $(swiper.slides[slideNRight]).css('transform',
+                                        'scale('+scale+','+scale+')'
+                                        + 'translateX('+offset_amount+'px)');
+                            }
                         }
                     }
 
-                    for(slideN=currentCentredIndex+4; slideN>currentCentredIndex; slideN--) {
-                        // offset right
-                        if(swiper.slides[slideN]) {
-                            scale = interp_figure_scale(slideN, progress);
-                            $(swiper.slides[slideN]).css('transform',
-                                    'scale('+scale+','+scale+')'
-                                    + ' translateX('+offset_amount+'px)');
-                        }
-                    }
-
+                    /*calc for the centred one*/
                     scale = interp_figure_scale(currentCentredIndex, progress);
-                    // scale for the centred one
-                    $(swiper.slides[currentCentredIndex]).css('transform',
-                            'scale('+scale+','+scale+')'
-                           );
+                    setScale(swiper.slides[currentCentredIndex], scale, scale);
+                    /*$(swiper.slides[currentCentredIndex]).css('transform',
+                     'scale('+scale+','+scale+')'
+                     );*/
 
-                    /*for(slideN=0; slideN<swiper.slides.length; slideN++) {
-                        var s = interp_figure_scale(slideN, progress);
-                        //console.log('onProgress,p='+ progress + ' ,s='+ s + ',activeI='+ swiper.activeIndex+', translate='+swiper.translate);
-
-                        /!*wenop: scale the centred figure*!/
-                        $(swiper.slides[slideN]).css('transform', 'scale('+s+','+s+')');
-                    }*/
                 }
             }
         });
 
+        function setScale(dom, x,y){
+            $(dom).css('transform',         'scale('+x+','+y+')');
+            $(dom).css('-ms-transform',     'scale('+x+','+y+')');       /* IE 9 */
+            $(dom).css('-moz-transform',    'scale('+x+','+y+')');       /* Firefox */
+            $(dom).css('-webkit-transform', 'scale('+x+','+y+')');       /* Safari 和 Chrome */
+            $(dom).css('-o-transform',      'scale('+x+','+y+')');       /* Opera */
+        }
+        function setTranslateX(dom, value) {
+            $(dom).css('transform',         'translateX('+value+')');
+            $(dom).css('-ms-transform',     'translateX('+value+')');       /* IE 9 */
+            $(dom).css('-moz-transform',    'translateX('+value+')');       /* Firefox */
+            $(dom).css('-webkit-transform', 'translateX('+value+')');       /* Safari 和 Chrome */
+            $(dom).css('-o-transform',      'translateX('+value+')');       /* Opera */
+        }
+
+        function setScaleAppend(dom, x,y){
+            setCSSSpaceAppend(dom, 'transform',         'scale('+x+','+y+')');
+            setCSSSpaceAppend(dom, '-ms-transform',     'scale('+x+','+y+')');       /* IE 9 */
+            setCSSSpaceAppend(dom, '-moz-transform',    'scale('+x+','+y+')');       /* Firefox */
+            setCSSSpaceAppend(dom, '-webkit-transform', 'scale('+x+','+y+')');       /* Safari 和 Chrome */
+            setCSSSpaceAppend(dom, '-o-transform',      'scale('+x+','+y+')');       /* Opera */
+        }
+        function setTranslateXAppend(value) {
+            setCSSSpaceAppend(dom, 'transform',         'translateX('+value+')');
+            setCSSSpaceAppend(dom, '-ms-transform',     'translateX('+value+')');       /* IE 9 */
+            setCSSSpaceAppend(dom, '-moz-transform',    'translateX('+value+')');       /* Firefox */
+            setCSSSpaceAppend(dom, '-webkit-transform', 'translateX('+value+')');       /* Safari 和 Chrome */
+            setCSSSpaceAppend(dom, '-o-transform',      'translateX('+value+')');       /* Opera */
+        }
+
+        /*wenop util*/
+        function setCSSSpaceAppend(dom, k, v) {
+            var oldV = $(dom).css(k);
+            if(oldV) {
+                $(dom).css(k, oldV+ ' ' + v);
+            } else {
+                $(dom).css(k, v);
+            }
+        }
 
         function refreshFigureHalfProgressWidth(swiper) {
             if (swiper.slides.length>1) {
